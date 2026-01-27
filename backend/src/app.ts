@@ -44,6 +44,25 @@ app.use((req, res, next) => {
   next();
 });
 
+// Welcome route
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Smart Reconciliation & Audit System API',
+    version: '1.0.0',
+    status: 'running',
+    endpoints: {
+      health: '/api/health',
+      auth: '/api/auth',
+      uploads: '/api/uploads',
+      reconciliation: '/api/reconciliation',
+      dashboard: '/api/dashboard',
+      audit: '/api/audit'
+    },
+    documentation: 'All API endpoints are available under /api prefix'
+  });
+});
+
 // Routes
 app.use('/api', healthRoutes);
 app.use('/api/auth', authRoutes);
