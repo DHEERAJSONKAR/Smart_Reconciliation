@@ -14,10 +14,29 @@ import logger from './utils/logger';
 
 const app: Application = express();
 
-// TODO: Move CORS config to environment variables
 // Security middleware
 app.use(helmet());
-app.use(cors());
+
+// CORS configuration
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:5173',
+  process.env.FRONTEND_URL || '',
+].filter(Boolean);
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, Postman, etc.)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV === 'development') {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 
 // Rate limiting - might need to adjust these values based on actual usage
 const limiter = rateLimit({
