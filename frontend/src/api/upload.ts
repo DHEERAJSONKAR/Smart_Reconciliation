@@ -1,6 +1,5 @@
 import { apiClient } from './client';
 import { UploadJob, UploadResponse } from '@/types/upload';
-import { PaginatedResponse } from '@/types/api';
 
 export const uploadApi = {
   upload: (formData: FormData) =>
